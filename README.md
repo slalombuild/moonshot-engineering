@@ -1,4 +1,4 @@
-# slalom-aws-devday-2019
+# moonshot-engineering
 
 AWS DevDay is a half-day, hands-on technical event, delivered by APN Partners who have demonstrated technical proficiency and proven customer success in specialized solution areas. Deep dive into AWS-powered partner solutions with Slalom – learn how to deploy a modern data engineering and analytics solution on AWS using Snowflake, Tableau, and AWS native services. Technical experts will explain key features and use cases, share best practices, provide technical demos, and answer questions.
 
