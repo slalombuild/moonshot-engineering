@@ -1,20 +1,32 @@
 # moonshot-engineering
 
-AWS DevDay is a half-day, hands-on technical event, delivered by APN Partners who have demonstrated technical proficiency and proven customer success in specialized solution areas. Deep dive into AWS-powered partner solutions with Slalom – learn how to deploy a modern data engineering and analytics solution on AWS using Snowflake, Tableau, and AWS native services. Technical experts will explain key features and use cases, share best practices, provide technical demos, and answer questions.
+## Overview 
+
+"Engineering Your Moonshot" is a one-day, hands-on technical event where attendees will learn how to deploy a modern data engineering and analytics solution on AWS using Snowflake, Tableau, and AWS native services. Technical experts will explain key features and use cases, share best practices, and provide technical demos. The Engineering Your Moonshot application is based on the [snowflake-on-ecs](https://github.com/SlalomBuild/snowflake-on-ecs) analytics pipeline framework from Slalom Build.
 
 ![alt text](https://slalom-aws-workshop-us-west-2.s3-us-west-2.amazonaws.com/content/images/awsdevday/aws-dev-day-2019.png "AWS Dev Day Architecture")
 
-## Overview
+The target audience is data engineers, cloud architects, and product developers with 3 - 5 years experience (300 level). Best for existing builders on cloud who want to dive deeper into highly technical hands-on training and content.
 
-The AWS Dev Day application demonstrates how to automate a Snowflake analytics pipeline running on Amazon Web Services. It is based on the [snowflake-on-ecs](https://github.com/SlalomBuild/snowflake-on-ecs) analytics pipeline framework from Slalom Build. Tableau Desktop is used to enable quick visualizations with your data.  The Dev Day activities are divided into the following sections:
+Attendees will learn how to:
 
-- Getting Started
-- Setting up Snowflake
-- Building the Pipeline in AWS
-- Running the Pipeline
-- Visual Analytics with Tableau Desktop
+- Leverage AWS infrastructure to build and run an automated Snowflake data pipeline
+- Automate the deployment of your system using AWS CloudFormation and SSM Parameter Store
+- Clean and transform raw data into analytic tables for consumption
+- Implement data warehousing best practices with a focus on least-privilege security
+- Create rich visualizations using Tableau, turning data into valuable insights
 
-## Getting Started (20 - 30 min.)
+## Activities
+
+The day's activities are divided into the following sections:
+
+- Getting Started (30 minutes)
+- Setting up Snowflake (60 minutes)
+- Building the Pipeline in AWS (60 minutes)
+- Running the Pipeline (60 minutes)
+- Visual Analytics with Tableau Desktop (60 minutes)
+
+## Getting Started
 
 ### Download the Code
 
@@ -33,7 +45,7 @@ Log into the AWS account provided for the Dev Day. You can reach the sign-in con
 4. Retrieve the `snowflake_user` password you will use during the Snowflake steps. It will be stored under `/airflow-ecs/SnowflakeCntl`
 ![alt text](images/awssetup-004.png)
 
-## Setting Up Snowflake (20 - 30 min.)
+## Setting Up Snowflake
 
 ### Log into Your Snowflake Account
 
@@ -63,7 +75,7 @@ Open the `deploy_objects.sql` script in the Snowflake UI. We'll take a walk thro
 ![alt text](images/image-08.png)
 5. We're now done with the initial Snowflake framework setup. Next, we'll be provisioning infrastructure in AWS that will allow us to run Airflow jobs to load these Snowflake tables with data.
 
-## Building the Pipeline in AWS (30 min.)
+## Building the Pipeline in AWS
 
 ### Review Foundational Components - Instructor Led
 
@@ -89,7 +101,7 @@ The framework uses [Apache Airflow](https://airflow.apache.org/) for the workflo
 5. On the next page, leave all of the default options and click Next. Scroll to the bottom of the next page and click Create Stack.
 6. You'll be routed to a page that contains details on your stack. Click on the Events tab to see the progress of the stack creation. This process will take between 10 and 20 minutes. Once it's complete, you'll see an event indicating that the creation is complete.
 ![alt text](images/image-17.png)
-7. Now that the stack has been created, navigate to ECS and select the single cluster that is running. 
+7. Now that the stack has been created, navigate to ECS and select the single cluster that is running.
 ![alt text](images/image-19.png)
 8. On the cluster details page, select the Tasks tab and find the task with a task definition name that corresponds to the name you gave your CloudFormation stack.
 ![alt text](images/image-20.png)
@@ -97,7 +109,7 @@ The framework uses [Apache Airflow](https://airflow.apache.org/) for the workflo
 ![alt text](images/image-21.png)
 ![alt text](images/image-22.png)
 
-## Running the Analytics Pipeline (20 - 30 min.)
+## Running the Analytics Pipeline
 
 ### Code Walk Through - SQL and DAGs
 
@@ -106,14 +118,14 @@ RDS/ECS will take about 10 minutes to launch. We'll use this time to walk throug
 1. Snowflake SQL Example
     - Open the file located at `airflow/dags/sql/copy_raw_nyc_taxi.sql.sql`
     - This COPY command loads data from S3 into a Snowflake tables.
-    - Metadata attributes such as `filename` and `file_row_number` are captured automatically. 
+    - Metadata attributes such as `filename` and `file_row_number` are captured automatically.
     - We also store the create process name and timestamp.
 
     ```sql
-    copy into nyc_taxi_raw(vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count, trip_distance, 
-        pickup_longitude, pickup_latitude, ratecodeid, store_and_fwd_flag, pulocationid, dolocationid, payment_type, 
-        fare_amount, extra, mta_tax, tip_amount, tolls_amount, improvement_surcharge, total_amount, src_filename, 
-        src_file_row_num, create_process, create_ts    
+    copy into nyc_taxi_raw(vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count, trip_distance,
+        pickup_longitude, pickup_latitude, ratecodeid, store_and_fwd_flag, pulocationid, dolocationid, payment_type,
+        fare_amount, extra, mta_tax, tip_amount, tolls_amount, improvement_surcharge, total_amount, src_filename,
+        src_file_row_num, create_process, create_ts
     )
     from (
     select t.$1,t.$2,t.$3,t.$4,t.$5,t.$6,t.$7,t.$8,t.$9,t.$10,t.$11,t.$12,t.$13,t.$14,t.$15,t.$16,t.$17,t.$18,t.$19,
@@ -190,13 +202,13 @@ Launch Airflow on ECS Task public IP port 8080. Run the Raw pipeline to load the
 2. The `snowflake_raw` DAG is now running and loading data into Snowflake. Navigate back to Snowflake and click on the History button. You should see the progress of the queries that are being executed by Airflow.
 ![alt text](images/image-24.png)
 3. After a few minutes, the DAG should be complete. Back in Snowflake, run a quick query on the `public.airline_raw` table to confirm that data was loaded successfully.
-![alt text](images/image-26.png) 
+![alt text](images/image-26.png)
 ![alt text](images/image-27.png)
 4. In Airflow, toggle the `snowflake_analytics` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK. This DAG will take data loaded into the stage tables and load it into the final destination tables that can be used for analytical queries.
 ![alt text](images/image-28.png)
 5. Once the DAG execution is complete, navigate back to Snowflake. Copy the contents of the `query_analytics.sql` script (located in the `snowflake` directory) and paste it in the Snowflake query window. Run the query.
 ![alt text](images/image-31.png)
 
-## Visual Analytics with Tableau Desktop (30 - 40 min.)
+## Visual Analytics with Tableau Desktop
 
 Please click [here](https://snowflake-lab.s3-us-west-2.amazonaws.com/public/docs/AWS-Slalom-Snowflake-Tableau-DevDay-TableauDesktop-08.20.2019.pdf) to download the Tableau Desktop instructions, then please follow the instructions outlined in the document.
