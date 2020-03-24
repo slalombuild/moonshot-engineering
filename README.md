@@ -30,7 +30,7 @@ The day's activities are divided into the following sections:
 
 ### Download the Code
 
-Download the Dev Day code [here](https://github.com/SlalomBuild/snowflake-on-ecs/archive/release-0.2.tar.gz) and save to a location on your disk you can refer to later.
+Download the Dev Day code [here](https://github.com/SlalomBuild/snowflake-on-ecs/archive/release-0.3.tar.gz) and save to a location on your disk you can refer to later.
 
 ### Log into AWS
 
