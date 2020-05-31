@@ -4,7 +4,7 @@
 
 "Engineering Your Moonshot" is a one-day, hands-on technical event where attendees will learn how to deploy a modern data engineering and analytics solution on AWS using Snowflake, Tableau, and AWS native services. Technical experts will explain key features and use cases, share best practices, and provide technical demos. The Engineering Your Moonshot application is based on the [snowflake-on-ecs](https://github.com/SlalomBuild/snowflake-on-ecs) analytics pipeline framework from Slalom Build.
 
-![alt text](https://slalom-aws-workshop-us-west-2.s3-us-west-2.amazonaws.com/content/images/awsdevday/aws-dev-day-2019.png "AWS Dev Day Architecture")
+![alt text](images/arch-001.png "Moonshot Engineering Architecture")
 
 The target audience is data engineers, cloud architects, and product developers with 3 - 5 years experience (300 level). Best for existing builders on cloud who want to dive deeper into highly technical hands-on training and content.
 
@@ -30,7 +30,7 @@ The day's activities are divided into the following sections:
 
 ### Download the Code
 
-Download the Dev Day code [here](https://github.com/SlalomBuild/snowflake-on-ecs/archive/release-0.3.tar.gz) and save to a location on your disk you can refer to later.
+Download the Dev Day code [here](https://github.com/SlalomBuild/snowflake-on-ecs/archive/release-0.4.tar.gz) and save to a location on your disk you can refer to later.
 
 ### Log into AWS
 
