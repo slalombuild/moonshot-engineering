@@ -79,10 +79,6 @@ Open the `deploy_objects.sql` script in the Snowflake UI. We'll take a walk thro
 
 ## Building the Pipeline in AWS
 
-### Review Foundational Components - Instructor Led
-
-Now we have the Snowflake components installed, how can we leverage AWS to automatically load data? We'll first run through the foundational AWS components that were deployed prior to the Dev Day. This includes building a Docker image with our pipeline application, setting up a VPC network in AWS, and pushing our Docker image to Amazon ECR (Elastic Container Registry).
-
 ### Deploy Airflow Running on ECS Fargate
 
 The framework uses [Apache Airflow](https://airflow.apache.org/) for the workflow engine. ECS Fargate allows us to use any application built using a Docker image.
@@ -111,11 +107,31 @@ The framework uses [Apache Airflow](https://airflow.apache.org/) for the workflo
 ![alt text](images/image-21.png)
 ![alt text](images/image-22.png)
 
+### Review Foundational Components - Instructor Led
+
+RDS/ECS will take about 10 minutes to launch. Now we have the Snowflake components installed, how can we leverage AWS to automatically load data? We'll first run through the foundational AWS components that were deployed prior to the Engineering Your Moonshot event. This includes building a Docker image with our pipeline application, setting up a VPC network in AWS, and pushing our Docker image to Amazon ECR (Elastic Container Registry). We will also walk through the Airflow ECS Service CloudFormation template you just deployed to AWS.
+
 ## Running the Analytics Pipeline
+
+### Run the Pipeline in Airflow Web UI
+
+Launch Airflow on ECS Task public IP port 8080. Run the Raw pipeline to load the Raw tables. Run the Analytics pipeline to load the Analytics tables. This will take some time to load. Go back to Snowflake and see the History tab, you can see Snowflake running the jobs and loading data. When it's done, Airflow UI will report success. We know it will since we've run this a billion times. Run a quick SQL query to see the data in the tables `query_analytics.sql`. Hey that's cool but we can do so much more, with Tableau Desktop!
+
+1. In the Airflow UI, you should see two DAGs, `snowflake_analytics` and `snowflake_raw`. Toggle the `snowflake_raw` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK.
+![alt text](images/image-23.png)
+2. The `snowflake_raw` DAG is now running and loading data into Snowflake. Navigate back to Snowflake and click on the History button. You should see the progress of the queries that are being executed by Airflow.
+![alt text](images/image-24.png)
+3. After a few minutes, the DAG should be complete. Back in Snowflake, run a quick query on the `public.airline_raw` table to confirm that data was loaded successfully.
+![alt text](images/image-26.png)
+![alt text](images/image-27.png)
+4. In Airflow, toggle the `snowflake_analytics` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK. This DAG will take data loaded into the stage tables and load it into the final destination tables that can be used for analytical queries.
+![alt text](images/image-28.png)
+5. Once the DAG execution is complete, navigate back to Snowflake. Copy the contents of the `query_analytics.sql` script (located in the `snowflake` directory) and paste it in the Snowflake query window. Run the query.
+![alt text](images/image-31.png)
 
 ### Code Walk Through - SQL and DAGs
 
-RDS/ECS will take about 10 minutes to launch. We'll use this time to walk through the Snowflake SQL and the Airflow DAGs used to automate it.
+The Airflow pipeline will take about 15 minutes to run. We'll use this time to walk through the Snowflake SQL and the Airflow DAGs used to automate it.
 
 1. Snowflake SQL Example
     - Open the file located at `airflow/dags/sql/copy_raw_nyc_taxi.sql.sql`
@@ -194,22 +210,6 @@ RDS/ECS will take about 10 minutes to launch. We'll use this time to walk throug
     t1 >> t2
 
     ```
-
-### Run the Pipeline
-
-Launch Airflow on ECS Task public IP port 8080. Run the Raw pipeline to load the Raw tables. Run the Analytics pipeline to load the Analytics tables. This will take some time to load. Go back to Snowflake and see the History tab, you can see Snowflake running the jobs and loading data. When it's done, Airflow UI will report success. We know it will since we've run this a billion times. Run a quick SQL query to see the data in the tables `query_analytics.sql`. Hey that's cool but we can do so much more, with Tableau Desktop!
-
-1. In the Airflow UI, you should see two DAGs, `snowflake_analytics` and `snowflake_raw`. Toggle the `snowflake_raw` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK.
-![alt text](images/image-23.png)
-2. The `snowflake_raw` DAG is now running and loading data into Snowflake. Navigate back to Snowflake and click on the History button. You should see the progress of the queries that are being executed by Airflow.
-![alt text](images/image-24.png)
-3. After a few minutes, the DAG should be complete. Back in Snowflake, run a quick query on the `public.airline_raw` table to confirm that data was loaded successfully.
-![alt text](images/image-26.png)
-![alt text](images/image-27.png)
-4. In Airflow, toggle the `snowflake_analytics` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK. This DAG will take data loaded into the stage tables and load it into the final destination tables that can be used for analytical queries.
-![alt text](images/image-28.png)
-5. Once the DAG execution is complete, navigate back to Snowflake. Copy the contents of the `query_analytics.sql` script (located in the `snowflake` directory) and paste it in the Snowflake query window. Run the query.
-![alt text](images/image-31.png)
 
 ## Visual Analytics with Tableau Desktop
 
