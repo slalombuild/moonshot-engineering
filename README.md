@@ -99,34 +99,34 @@ The framework uses [Apache Airflow](https://airflow.apache.org/) for the workflo
 5. On the next page, leave all of the default options and click Next. Scroll to the bottom of the next page and click Create Stack.
 6. You'll be routed to a page that contains details on your stack. Click on the Events tab to see the progress of the stack creation. This process will take between 10 and 20 minutes. Once it's complete, you'll see an event indicating that the creation is complete.
 ![alt text](images/image-17.png)
-7. Now that the stack has been created, navigate to ECS and select the single cluster that is running.
-![alt text](images/image-19.png)
-8. On the cluster details page, select the Tasks tab and find the task with a task definition name that corresponds to the name you gave your CloudFormation stack.
-![alt text](images/image-20.png)
-9. Select the task to view the task details. In the Network section, copy the Public IP address and paste it in your browser address bar. Append `:8080` to the IP address and navigate to the page. You should see the Airflow user interface.
-![alt text](images/image-21.png)
-![alt text](images/image-22.png)
 
 ### Review Foundational Components - Instructor Led
 
-RDS/ECS will take about 10 minutes to launch. Now we have the Snowflake components installed, how can we leverage AWS to automatically load data? We'll first run through the foundational AWS components that were deployed prior to the Engineering Your Moonshot event. This includes building a Docker image with our pipeline application, setting up a VPC network in AWS, and pushing our Docker image to Amazon ECR (Elastic Container Registry). We will also walk through the Airflow ECS Service CloudFormation template you just deployed to AWS.
+While we are waiting for the Airflow ECS Service stack to launch, let's review some foundational concepts. We have the Snowflake components installed, can we leverage AWS to automatically load data? We'll first run through the foundational AWS components that were deployed prior to the Engineering Your Moonshot event. This includes building a Docker image with our pipeline application, setting up a VPC network in AWS, and pushing our Docker image to Amazon ECR (Elastic Container Registry). We will also walk through the Airflow ECS Service CloudFormation template you just deployed to AWS.
 
 ## Running the Analytics Pipeline
 
 ### Run the Pipeline in Airflow Web UI
 
-Launch Airflow on ECS Task public IP port 8080. Run the Raw pipeline to load the Raw tables. Run the Analytics pipeline to load the Analytics tables. This will take some time to load. Go back to Snowflake and see the History tab, you can see Snowflake running the jobs and loading data. When it's done, Airflow UI will report success. We know it will since we've run this a billion times. Run a quick SQL query to see the data in the tables `query_analytics.sql`. Hey that's cool but we can do so much more, with Tableau Desktop!
+In this section, we'll launch Airflow on ECS Task using a public IP, port 8080. We'll run the Raw pipeline to load the Raw tables. We'll then run the Analytics pipeline to load the Analytics tables. This will take some time to load. Go back to Snowflake and see the History tab, you can see Snowflake running the jobs and loading data. When it's done, Airflow UI will report success. We'll run a quick SQL query to see the data in the tables `query_analytics.sql`. 
 
-1. In the Airflow UI, you should see two DAGs, `snowflake_analytics` and `snowflake_raw`. Toggle the `snowflake_raw` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK.
+1. Now that the stack has been created, navigate to ECS and select the single cluster that is running.
+![alt text](images/image-19.png)
+2. On the cluster details page, select the Tasks tab and find the task with a task definition name that corresponds to the name you gave your CloudFormation stack.
+![alt text](images/image-20.png)
+3. Select the task to view the task details. In the Network section, copy the Public IP address and paste it in your browser address bar. Append `:8080` to the IP address and navigate to the page. You should see the Airflow user interface.
+![alt text](images/image-21.png)
+![alt text](images/image-22.png)
+4. In the Airflow UI, you should see two DAGs, `snowflake_analytics` and `snowflake_raw`. Toggle the `snowflake_raw` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK.
 ![alt text](images/image-23.png)
-2. The `snowflake_raw` DAG is now running and loading data into Snowflake. Navigate back to Snowflake and click on the History button. You should see the progress of the queries that are being executed by Airflow.
+5. The `snowflake_raw` DAG is now running and loading data into Snowflake. Navigate back to Snowflake and click on the History button. You should see the progress of the queries that are being executed by Airflow.
 ![alt text](images/image-24.png)
-3. After a few minutes, the DAG should be complete. Back in Snowflake, run a quick query on the `public.airline_raw` table to confirm that data was loaded successfully.
+6. After a few minutes, the DAG should be complete. Back in Snowflake, run a quick query on the `public.airline_raw` table to confirm that data was loaded successfully.
 ![alt text](images/image-26.png)
 ![alt text](images/image-27.png)
-4. In Airflow, toggle the `snowflake_analytics` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK. This DAG will take data loaded into the stage tables and load it into the final destination tables that can be used for analytical queries.
+7. In Airflow, toggle the `snowflake_analytics` switch to On and select the Trigger Dag button in the Links section of the DAG row. When prompted to run the DAG, click OK. This DAG will take data loaded into the stage tables and load it into the final destination tables that can be used for analytical queries.
 ![alt text](images/image-28.png)
-5. Once the DAG execution is complete, navigate back to Snowflake. Copy the contents of the `query_analytics.sql` script (located in the `snowflake` directory) and paste it in the Snowflake query window. Run the query.
+8. Once the DAG execution is complete, navigate back to Snowflake. Copy the contents of the `query_analytics.sql` script (located in the `snowflake` directory) and paste it in the Snowflake query window. Run the query.
 ![alt text](images/image-31.png)
 
 ### Code Walk Through - SQL and DAGs
