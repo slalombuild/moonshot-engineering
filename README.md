@@ -1,10 +1,8 @@
 # moonshot-engineering
 
-## Overview 
+## Overview
 
 "Engineering Your Moonshot" is a one-day, hands-on technical event where attendees will learn how to deploy a modern data engineering and analytics solution on AWS using Snowflake, Tableau, and AWS native services. Technical experts will explain key features and use cases, share best practices, and provide technical demos. The Engineering Your Moonshot application is based on the [snowflake-on-ecs](https://github.com/SlalomBuild/snowflake-on-ecs) analytics pipeline framework from Slalom Build.
-
-![alt text](images/arch-001.png "Moonshot Engineering Architecture")
 
 The target audience is data engineers, cloud architects, and product developers with 3 - 5 years experience (300 level). Best for existing builders on cloud who want to dive deeper into highly technical hands-on training and content.
 
@@ -15,6 +13,10 @@ Attendees will learn how to:
 - Clean and transform raw data into analytic tables for consumption
 - Implement data warehousing best practices with a focus on least-privilege security
 - Create rich visualizations using Tableau, turning data into valuable insights
+
+## Architecture
+
+![alt text](images/arch-001.png "Moonshot Engineering Architecture")
 
 ## Activities
 
