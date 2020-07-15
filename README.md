@@ -32,11 +32,11 @@ The day's activities are divided into the following sections:
 
 ### Download the Code
 
-Download the Engineering Your Moonshot code [here](https://github.com/SlalomBuild/snowflake-on-ecs/archive/release-0.5.tar.gz) and save to a location on your disk you can refer to later.
+Download the Engineering Your Moonshot code [here](https://github.com/SlalomBuild/snowflake-on-ecs/archive/release-0.5.zip) and save to a location on your disk you can refer to later.
 
 ### Log into AWS
 
-Log into the AWS account provided for the Dev Day. You can reach the sign-in console [here](https://aws.amazon.com/marketplace/management/signin). Use the account alias provided during the Dev Day. Once logged in, you'll retrieve the password to be used with Snowflake in a later step. Be sure to select the Oregon region in the AWS console.
+Log into the AWS account provided for the Engineering Your Moonshot event. You can reach the sign-in console [here](https://aws.amazon.com/marketplace/management/signin). Use the account alias provided in the email to log in. Once logged in, you'll retrieve the password to be used with Snowflake in a later step. Be sure to select the Oregon region in the AWS console.
 
 1. Log into AWS using your username/password  
 ![alt text](images/awssetup-001.png)
@@ -108,7 +108,7 @@ While we are waiting for the Airflow ECS Service stack to launch, let's review s
 
 ### Run the Pipeline in Airflow Web UI
 
-In this section, we'll launch Airflow on ECS Task using a public IP, port 8080. We'll run the Raw pipeline to load the Raw tables. We'll then run the Analytics pipeline to load the Analytics tables. This will take some time to load. Go back to Snowflake and see the History tab, you can see Snowflake running the jobs and loading data. When it's done, Airflow UI will report success. We'll run a quick SQL query to see the data in the tables `query_analytics.sql`. 
+In this section, we'll launch Airflow on ECS Task using a public IP, port 8080. We'll run the Raw pipeline to load the Raw tables. We'll then run the Analytics pipeline to load the Analytics tables. This will take some time to load. Go back to Snowflake and see the History tab, you can see Snowflake running the jobs and loading data. When it's done, Airflow UI will report success. We'll run a quick SQL query to see the data in the tables `query_analytics.sql`.
 
 1. Now that the stack has been created, navigate to ECS and select the single cluster that is running.
 ![alt text](images/image-19.png)
